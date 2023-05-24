@@ -9,9 +9,16 @@ class User(AbstractUser):
     boi=models.CharField(max_length=100)
 
     is_staff=models.BooleanField(default=False)
-    is_active=models.BooleanField(default=False)
+    is_active=models.BooleanField(default=True)
     is_superuser=models.BooleanField(default=True)
 
     USERNAME_FIELD='email'
     REQUIRED_FIELDS=[]
     objects=UserManager()
+    
+class Post(models.Model):
+    title = models.CharField(max_length=30)
+    description = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+    upadated_at = models.DateField(auto_now=True)
+    user = models.ForeignKey(User,models.SET_NULL,null=True,related_name='user_post')
