@@ -63,7 +63,7 @@ class View(generics.ListAPIView):
         print(post_list)
         ser=self.serializer_class(post_list,many=True)
         return Response({'status':'success','post':ser.data})
-        # if hh
+        # if 
         # else:
         #     print(ser.errors)
         #     return Response({'status':'error',})
