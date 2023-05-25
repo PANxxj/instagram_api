@@ -22,3 +22,11 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     upadated_at = models.DateField(auto_now=True)
     user = models.ForeignKey(User,models.SET_NULL,null=True,related_name='user_post')
+    
+    
+class PostLikes(models.Model):
+    post = models.ForeignKey(Post,models.CASCADE,null=False)
+    user=models.ForeignKey(User,models.CASCADE,null=False)
+    
+    class Meta:
+        unique_together =(('post', 'user'),)

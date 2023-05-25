@@ -63,9 +63,25 @@ class View(generics.ListAPIView):
         print(post_list)
         ser=self.serializer_class(post_list,many=True)
         return Response({'status':'success','post':ser.data})
-        # if 
-        # else:
-        #     print(ser.errors)
-        #     return Response({'status':'error',})
+      
+      
+class LikePost(APIView):
+    serializer_class =PostSerializer
+    authentication_classes=[TokenAuthentication]
+    permission_classes=[IsAuthenticated]
+    
+    def get(self, request,pk):
+        try:
+            post=Post.objects.get(id=pk)
+            new_post_like=PostLikes.objects.get_or_create(user=request.user,post=post)
+            if not new_post_like[1]:
+                new_post_like[0].delete()
+                return Response({'status':True,'msg':'we have unlike the post'})
+            else:
+                return Response({'status':True,'msg':'we have like the post'})
+        except Exception as e:
+            print(e)
+            return Response({'status':False,'msg':'something went wrong'})
+        
             
         
