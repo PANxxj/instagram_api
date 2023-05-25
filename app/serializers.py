@@ -36,3 +36,11 @@ class PostSerializer(serializers.ModelSerializer):
             return super().update(instance, validated_data)
     
 
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=PostComment
+        fields="__all__"
+
+    comment_text=serializers.CharField(max_length=100)
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    post=serializers.PrimaryKeyRelatedField(read_only=True)

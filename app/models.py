@@ -30,3 +30,15 @@ class PostLikes(models.Model):
     
     class Meta:
         unique_together =(('post', 'user'),)
+
+
+class PostComment(models.Model):
+    post = models.ForeignKey(Post,models.CASCADE,null=False)
+    comment_text=models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    upadated_at = models.DateField(auto_now=True)
+    user=models.ForeignKey(User,null=False,on_delete=models.CASCADE)
+
+    # def save(self,**kwarg):
+    #     print(kwarg)
+    #     return super().save(**kwarg)

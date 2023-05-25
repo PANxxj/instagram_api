@@ -17,4 +17,6 @@ urlpatterns = [
     path('post/delete/<int:pk>', DeletePost.as_view()),
     path('post/list',View.as_view()),
     path('post/like/<int:pk>',LikePost.as_view()),
+    path('post/comment/<int:pk>',CommentPost.as_view()),
+    path('post/commentlist/<int:pk>',CommentPost.as_view())
 ]

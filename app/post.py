@@ -84,4 +84,39 @@ class LikePost(APIView):
             return Response({'status':False,'msg':'something went wrong'})
         
             
-        
+class CommentPost(generics.CreateAPIView):
+    queryset=Post.objects.all()
+    serializer_class =CommentSerializer
+    authentication_classes=[TokenAuthentication]
+    permission_classes=[IsAuthenticated]
+
+    def get(self,request,pk):
+        try:
+            post=Post.objects.get(id=pk)
+            comments=PostComment.objects.filter(post=post)
+            ser=self.serializer_class(comments,many=True)
+            return Response({'status':True,'comments':ser.data})
+            
+
+        except Exception as e:
+            print(e)
+            return Response({'status':False,'msg':'something went wrong'})
+
+
+    def post(self,request,pk):
+        try:
+            context={
+                'request':request
+            }
+            post=Post.objects.get(id=pk)
+            # request.data['post']=post
+            ser=self.serializer_class(context=context,data=request.data)
+            if ser.is_valid():
+                ser.save(post=post)
+                return Response({'status':True,'msg':'comment added'})
+            else:
+                return Response({'status':False,'msg':'got error to addng comment'})
+
+        except Exception as e:
+            print(e)
+            return Response({'status':False,'msg':'something went wrong'})
